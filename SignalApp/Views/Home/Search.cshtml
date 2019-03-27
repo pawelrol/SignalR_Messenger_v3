@@ -1,0 +1,42 @@
+﻿@model List<IdentityUser>
+
+
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<h2>Search</h2>
+
+@foreach(var u in Model)
+{
+    <div class="cart">
+        <h2>@u.UserName</h2>
+        <button class="btn btn-info" id="@u.Id" > Dodaj </button>
+
+    </div>
+}
+
+<script>
+
+    $('.btn-info').click(function () {
+        var userId = $(this).attr('id');
+
+        $.ajax({
+            method: "POST",
+            url: "/Home/AddFriend/" + userId,    //to za nas robi MVC że rozumie żeto jest nasz url z parametrem czyli www.url.pl?id=userId
+            success: function () {
+                alert("dodan do listy znajomych");
+            },
+        
+
+        })
+
+    })
+
+    
+
+</script>
+

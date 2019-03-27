@@ -1,0 +1,73 @@
+﻿@model List<IdentityUser>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<style>
+    .mr-10{
+        margin-top: 10px;
+    }
+    .mr-50 {
+        margin-top: 50px;
+    }
+</style>
+
+<div class="container mr-50">
+    <form asp-action="search">
+        <input type="text" class="form-group" name="query" />
+        <input type="submit" class="btn btn-info" value="Szukaj" />
+    </form>
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            @foreach (var user in Model)
+            {
+            <h4 class="friend">
+                <span name="@user.Id" id="">&#9679;</span>
+                <span>@user.UserName</span>
+            
+                
+            
+            </h4>
+            }
+        </div>
+        <div class="col-lg-8">
+            <h1 class="chat-with-user" id="">
+
+            </h1>
+            <textarea class="form-control mr-10" id="msg-window"></textarea>
+            <input type="text" class="form-control mr-10" id="new-msg" />
+            <button class="btn btn-info mr-10" id="send-msg">Send</button>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/dist/browser/signalr.js"></script>
+<script src="~/js/dist/browser/chat.js"></script>
+
+<script>
+    $('.friend').click(function () {
+
+        var conId = $(this).children()[0].getAttribute('id');
+        var userName = $(this).children()[1].innerHTML;
+
+        $(".chat-with-user").html(userName);
+        $(".chat-with-user").attr('id', conId);    
+
+        console.log(conId, userName);
+    })
+
+    
+
+
+</script>
