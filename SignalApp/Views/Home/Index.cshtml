@@ -62,7 +62,15 @@
         var userName = $(this).children()[1].innerHTML;
 
         $(".chat-with-user").html(userName);
-        $(".chat-with-user").attr('id', conId);    
+        $(".chat-with-user").attr('id', conId);
+
+        var friendId = $(this).children()[0].attr("name");
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/HistoryFromDb",
+            data: friendId,
+        });
 
         console.log(conId, userName);
     })

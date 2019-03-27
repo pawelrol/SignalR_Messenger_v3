@@ -14,6 +14,7 @@ namespace SignalApp.Data
         {
         }
 
-        public DbSet<FriendList> FriendLists { get; set; }      
+        public DbSet<FriendList> FriendLists { get; set; }
+        public DbSet<SignalMessage> SignalMessages { get; set; }
     }
 }

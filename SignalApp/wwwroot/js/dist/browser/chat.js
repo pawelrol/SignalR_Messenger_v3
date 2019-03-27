@@ -33,9 +33,10 @@ connection.on("ReciveMessage3", function (list) {       //przekazujemy całąlis
     console.log(arr);
 });
 
-connection.on("ReciveMessage4", function (user, message) {
+connection.on("ReciveMessage4", function (user, message, conIdFromUser) {
     $(".chat-with-user").html(user);
-    $("#msg-window").append(message);
+    $(".chat-with-user").attr('id', conIdFromUser);
+    $("#msg-window").append("\n" + message);
 })
 
 
@@ -45,6 +46,11 @@ $("#send-msg").click(function () {
     $("#new-msg").val('');
 
     var conId = $(".chat-with-user").attr('id');
-
+    $("#msg-window").append("\n" + msg);
     connection.invoke("SendMessageToUser", conId, msg);
+
+    
+
+
+
 });

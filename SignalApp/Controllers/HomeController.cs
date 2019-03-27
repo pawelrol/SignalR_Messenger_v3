@@ -57,6 +57,18 @@ namespace SignalApp.Controllers
             return Json(true);
         }
 
+
+        public JsonResult GetMessages(string firendId)
+
+
+        {
+            string userId = _mgr.GetUserId(HttpContext.User);
+            var list = _db.SignalMessages.Where(x => x.UserId == userId || x.UserId == firendId).OrderBy(x=> x.DateCreated).ToList();
+
+            return Json(list);
+        }
+
+
         public IActionResult Index()
         {
             string userId = _mgr.GetUserId(HttpContext.User);   //wyciągamy od zalogowanego użytkownika jego Id - ono istniej w kontekscie

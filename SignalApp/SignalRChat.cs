@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using SignalApp.Data;
 using SignalApp.Models;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace SignalApp
 
         private UserManager<IdentityUser> _mgr;
         private IHttpContextAccessor _httpContext;
+        private ApplicationDbContext _appDb;
 
-        public SignalRChat(UserManager<IdentityUser> mgr, IHttpContextAccessor httpContext)
+        public SignalRChat(UserManager<IdentityUser> mgr, IHttpContextAccessor httpContext, ApplicationDbContext appDb)
         {
             _mgr = mgr;
             _httpContext = httpContext;
+            _appDb = appDb;
             
         }
 
@@ -75,7 +78,18 @@ namespace SignalApp
         public async Task SendMessageToUser(string conId, string msg)               //zjavascriptu uruchomilismy te motedą przez connection.invoke
         {
             string userName = _httpContext.HttpContext.User.Identity.Name;
-            await Clients.Client(conId).SendAsync("ReciveMessage4", userName, msg);                             //metodąclient mozemy wyslac do jednego ona przyjmuje connectionId
+            await Clients.Client(conId).SendAsync("ReciveMessage4", userName, msg, Context.ConnectionId);         //jako 3 parametr dodajemy nasze id                    //metodąclient mozemy wyslac do jednego ona przyjmuje connectionId
+
+            SignalMessage newMessage = new SignalMessage();
+            newMessage.UserId = Context.ConnectionId;
+            newMessage.Friend = userName;
+            newMessage.DateCreated = DateTime.Now;
+            newMessage.Message = msg;
+
+            _appDb.Add(newMessage);
+            _appDb.SaveChanges();
+
+
         }
     }
 }
