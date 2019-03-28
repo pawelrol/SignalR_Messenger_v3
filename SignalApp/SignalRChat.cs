@@ -80,9 +80,12 @@ namespace SignalApp
             string userName = _httpContext.HttpContext.User.Identity.Name;
             await Clients.Client(conId).SendAsync("ReciveMessage4", userName, msg, Context.ConnectionId);         //jako 3 parametr dodajemy nasze id                    //metodąclient mozemy wyslac do jednego ona przyjmuje connectionId
 
+            string userId = _mgr.GetUserId(_httpContext.HttpContext.User);
+            var Friend = connectedUsers.Where(x => x.ConnectionId == conId).FirstOrDefault();
+
             SignalMessage newMessage = new SignalMessage();
-            newMessage.UserId = Context.ConnectionId;
-            newMessage.Friend = userName;
+            newMessage.UserId = userId;
+            newMessage.Friend = Friend.Id;
             newMessage.DateCreated = DateTime.Now;
             newMessage.Message = msg;
 

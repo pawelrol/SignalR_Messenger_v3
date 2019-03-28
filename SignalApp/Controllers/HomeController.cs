@@ -58,7 +58,7 @@ namespace SignalApp.Controllers
         }
 
 
-        public JsonResult GetMessages(string firendId)
+        public JsonResult GetMessages(string firendId)      //metoda zwraca na jsona z wiadomosciami uzytkownikó
 
 
         {

@@ -54,3 +54,27 @@ $("#send-msg").click(function () {
 
 
 });
+
+
+$('.friend').click(function () {
+
+    var conId = $(this).children()[0].getAttribute('id');
+    var userName = $(this).children()[1].innerHTML;
+
+    $(".chat-with-user").html(userName);
+    $(".chat-with-user").attr('id', conId);
+
+    var friendId = $(this).children()[0].getAttribute("name");
+
+    $.ajax({
+        url: "Home/GetMessages?firendId" + friendId,
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#msg-window").append("\n" + data[i].message);
+            }
+        }
+    });
+
+    //console.log(conId, userName);
+})
+
